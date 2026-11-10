@@ -1,0 +1,19 @@
+{
+  "name": "growleads",
+  "version": "2.0.0",
+  "description": "Signal-based outbound lead generation — CLI edition (local SQLite)",
+  "main": "cli.js",
+  "bin": {
+    "growleads": "cli.js"
+  },
+  "scripts": {
+    "start": "node cli.js",
+    "growleads": "node cli.js",
+    "db:restore": "node scripts/db-restore.js",
+    "db:snapshot": "node scripts/db-snapshot.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1"
+  }
+}

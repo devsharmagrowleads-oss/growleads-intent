@@ -1,0 +1,27 @@
+# ── dependencies ─────────────────────────────────────────────────────────────
+node_modules/
+pipeline/node_modules/
+
+# ── secrets — never commit; .env.example is the tracked template ─────────────
+.env
+pipeline/.env
+
+# ── local SQLite database — NEVER committed ──────────────────────────────────
+# The database holds profile data on real people, so nothing under data/ is
+# tracked: not the live DB, not backups, not the compressed snapshot.
+# Transfer snapshots out-of-band (see README → "Getting the dataset").
+pipeline/data/
+
+*.db-wal
+*.db-shm
+*.bak-*
+
+# ── os ───────────────────────────────────────────────────────────────────────
+.DS_Store
+
+# ── exports and backups — real people's data, never committed ─────────────────
+output/*
+!output/.gitkeep
+backups/
+*.csv
+*.xlsx
