@@ -86,7 +86,10 @@ function parseCampaign(filePath) {
       .concat(extractBulletList(content, "Buyer's Language"))
       .concat(extractBulletList(content, 'Buyer\'s Language')),
     acknowledgmentPoints: extractBulletList(content, 'Acknowledgment Points'),
-    caseStudies: extractBulletList(content, 'Case Studies Available') || extractBulletList(content, 'Case Studies'),
+    // extractBulletList returns [] on no match, and [] is truthy — so `||`
+    // would never reach the short-header fallback.
+    caseStudies: firstNonEmpty(extractBulletList(content, 'Case Studies Available'),
+                               extractBulletList(content, 'Case Studies')),
 
     // Scoring weights
     signalWeights: parseSignalWeights(content),

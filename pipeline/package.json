@@ -9,6 +9,7 @@
   "scripts": {
     "start": "node cli.js",
     "growleads": "node cli.js",
+    "test": "node --test",
     "db:restore": "node scripts/db-restore.js",
     "db:snapshot": "node scripts/db-snapshot.js"
   },
