@@ -35,10 +35,13 @@ function scoreForCap(lead) {
   const priority = (lead.priority || '').toLowerCase();
   const bRank = BRACKET_RANK[bracket] || 0;
   const pRank = PRIORITY_RANK[priority] || 0;
-  // Recency: most-recent createdAt wins as tiebreaker. Use epoch_minutes / 1e6
-  // so it stays well below the priority multiplier.
-  const ts = lead.createdAt ? new Date(lead.createdAt).getTime() : Date.now();
-  const recencyComponent = Math.min(ts / 6e10, 1); // 0..1
+  // Recency: most-recent createdAt wins as tiebreaker. Scale epoch ms by 1e13
+  // (stays below 1 until year 2286) so it remains well below the priority
+  // multiplier while still distinguishing timestamps. The previous 6e10
+  // divisor saturated at 1 for every modern date, so recency never broke ties.
+  const parsed = lead.createdAt ? new Date(lead.createdAt).getTime() : Date.now();
+  const ts = Number.isFinite(parsed) ? Math.max(parsed, 0) : 0;
+  const recencyComponent = Math.min(ts / 1e13, 1); // 0..1
   return bRank * 1000 + pRank * 10 + recencyComponent;
 }
 
