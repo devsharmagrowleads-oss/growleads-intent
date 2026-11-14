@@ -48,7 +48,10 @@ function getIntentTier(score, thresholds) {
 }
 
 function computeScore(signals, campaignWeights, thresholds) {
-  if (!signals || signals.length === 0) return { compositeScore: 0, intentTier: 'low' };
+  // No signals means no intent: score 0 must map to the same tier as any other
+  // score of 0 ('none' with the defaults), or the pipeline's "score too low"
+  // gate lets a signal-less lead through.
+  if (!signals || signals.length === 0) return { compositeScore: 0, intentTier: getIntentTier(0, thresholds) };
 
   const uniqueTypes = new Set(signals.map(s => s.type));
   const overlapBonus = getOverlapBonus(uniqueTypes.size);
