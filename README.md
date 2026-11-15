@@ -12,6 +12,10 @@ No server, no dashboard, no API. Everything runs through `pipeline/cli.js`.
 
 ## Quick start
 
+Requires Node.js 22.13 or newer. The database layer uses the built-in `node:sqlite`
+module, which older versions either lack or keep behind a flag. An `.nvmrc` is
+included, so `nvm use` picks a suitable version.
+
 ```bash
 git clone https://github.com/devsharmagrowleads-oss/growleads-intent.git
 cd growleads-intent/pipeline
