@@ -4,7 +4,7 @@ const SENIORITY_MAP = {
   'C-Suite': ['chief', 'ceo', 'cto', 'cfo', 'coo', 'cmo', 'chro', 'cio', 'cxo', 'founder', 'co-founder', 'cofounder'],
   'VP': ['vp', 'vice president', 'svp', 'evp'],
   'Director': ['director', 'head of', 'head -', 'principal'],
-  'Manager': ['manager', 'lead', 'senior manager', 'team lead']
+  'Manager': ['manager', 'lead', 'leader', 'senior manager', 'team lead']
 };
 
 // ─── STR/PROPERTY FALLBACK (used only when campaign has no icpKeywords) ─────
@@ -725,9 +725,13 @@ function checkSeniorityMatch(title, targetSeniority) {
   return null;
 }
 
+// Keywords are matched as whole words (optional plural "s"). A bare substring
+// check made "director" hit the C-Suite keyword "cto", so every Director was
+// labelled C-Suite.
 function detectSeniority(title) {
+  if (!title) return null;
   for (const [level, keywords] of Object.entries(SENIORITY_MAP)) {
-    if (keywords.some(k => title.includes(k))) return level;
+    if (keywords.some(k => new RegExp(`(^|[^a-z0-9])${escapeRegexInline(k)}s?([^a-z0-9]|$)`, 'i').test(title))) return level;
   }
   return null;
 }
