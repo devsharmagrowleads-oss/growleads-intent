@@ -37,7 +37,7 @@ const COMPANY_SUFFIXES = [
 ];
 
 const SUFFIX_PATTERN = new RegExp(
-  '\\s*[,.]?\\s*(?:' + COMPANY_SUFFIXES.join('|') + ')\\s*\\.?\\s*$',
+  '\\s*[,.]?\\s*\\b(?:' + COMPANY_SUFFIXES.join('|') + ')\\s*\\.?\\s*$',
   'i'
 );
 
