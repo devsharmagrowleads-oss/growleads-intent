@@ -49,8 +49,9 @@ function scoreSeedRelevance(profile, posts, campaign) {
 
   // Competitor company match overrides to max
   const competitors = (campaign?.competitors || []).map(c => c.toLowerCase()).filter(Boolean);
-  const company = (profile.currentCompany || '').toLowerCase();
-  if (competitors.some(c => c.length > 2 && (company.includes(c) || c.includes(company)))) {
+  const company = (profile.currentCompany || '').trim().toLowerCase();
+  // Guard the company too: ''.includes check would make every company-less seed a "competitor".
+  if (company.length > 2 && competitors.some(c => c.length > 2 && (company.includes(c) || c.includes(company)))) {
     scores.industryFit = 35;
     details.push(`competitor: ${profile.currentCompany}`);
   }
